@@ -10,6 +10,7 @@ import org.lwjgl.opengl.PixelFormat;
 
 public class DisplayManager {
 
+    //TODO Move to Settings File
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 720;
     private static final int FPS_CAP = 60;

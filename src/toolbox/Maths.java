@@ -1,5 +1,6 @@
 package toolbox;
 
+import entities.Camera;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -15,4 +16,16 @@ public class Maths {
         Matrix4f.scale(new Vector3f(scale,scale,scale), matrix, matrix);
         return matrix;
     }
+    public static Matrix4f createViewMatrix(Camera cam){
+        Matrix4f viewMatrix = new Matrix4f();
+        viewMatrix.setIdentity();
+        Matrix4f.rotate((float)Math.toRadians(cam.getPitch()), new Vector3f(1,0,0),viewMatrix,viewMatrix);
+        Matrix4f.rotate((float)Math.toRadians(cam.getYaw()), new Vector3f(0,1,0),viewMatrix,viewMatrix);
+        Vector3f camPos = cam.getPosition();
+        Vector3f negativeCamPos = new Vector3f(-camPos.x, -camPos.y, -camPos.z);
+        Matrix4f.translate(negativeCamPos, viewMatrix,viewMatrix);
+        return viewMatrix;
+    }
+
+
 }

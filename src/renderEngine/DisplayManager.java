@@ -21,11 +21,10 @@ public class DisplayManager {
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH,HEIGHT));
 			Display.create(new PixelFormat(), attribs);
-			Display.setTitle("Our First Display!");
+			Display.setTitle("Java Sim Engine Pre Alpha | RobHaggis");
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
-		
 		GL11.glViewport(0,0, WIDTH, HEIGHT);
 	}
 	

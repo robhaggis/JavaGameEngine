@@ -19,7 +19,7 @@ void main(void){
 
     //Diffuse Lighting
     float nDotl = dot(unitNormal, unitLightVector);
-    float brightness = max(nDotl, 0.0);
+    float brightness = max(nDotl, 0.2);
     vec3 diffuse = brightness *lightColour;
 
     //Specular Highlighting

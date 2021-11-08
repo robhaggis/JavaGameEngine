@@ -22,14 +22,14 @@ public class MainGameLoop {
         StaticShader shader = new StaticShader();
         Renderer renderer = new Renderer(shader);
 
-        RawModel model = OBJLoader.loadObjMOdel("stall", loader);
-        ModelTexture texture = new ModelTexture(loader.loadTexture("stallTexture"));
+        RawModel model = OBJLoader.loadObjMOdel("stanford-dragon", loader);
+        ModelTexture texture = new ModelTexture(loader.loadTexture("white"));
         TexturedModel staticModel = new TexturedModel(model, texture);
         Entity entity = new Entity(staticModel, new Vector3f(0,0,-50),0,0,0,1);
         Camera camera = new Camera();
 
         while (!Display.isCloseRequested()) {
-            entity.increaseRotation(0,1,0);
+            entity.increaseRotation(0,2,0);
             camera.move();
             renderer.prepare();
             shader.start();

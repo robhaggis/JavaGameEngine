@@ -20,7 +20,7 @@ import entities.Entity;
 
 public class EntityRenderer {
 
-	private StaticShader shader;
+	private final StaticShader shader;
 
 	public EntityRenderer(StaticShader shader,Matrix4f projectionMatrix) {
 		this.shader = shader;

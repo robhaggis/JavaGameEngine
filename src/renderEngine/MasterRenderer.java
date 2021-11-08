@@ -26,15 +26,15 @@ public class MasterRenderer {
 	
 	private Matrix4f projectionMatrix;
 	
-	private StaticShader shader = new StaticShader();
-	private EntityRenderer renderer;
+	private final StaticShader shader = new StaticShader();
+	private final EntityRenderer renderer;
 	
-	private TerrainRenderer terrainRenderer;
-	private TerrainShader terrainShader = new TerrainShader();
+	private final TerrainRenderer terrainRenderer;
+	private final TerrainShader terrainShader = new TerrainShader();
 	
 	
-	private Map<TexturedModel,List<Entity>> entities = new HashMap<TexturedModel,List<Entity>>();
-	private List<Terrain> terrains = new ArrayList<Terrain>();
+	private final Map<TexturedModel,List<Entity>> entities = new HashMap<TexturedModel,List<Entity>>();
+	private final List<Terrain> terrains = new ArrayList<Terrain>();
 	
 	public MasterRenderer(){
 		GL11.glEnable(GL11.GL_CULL_FACE);

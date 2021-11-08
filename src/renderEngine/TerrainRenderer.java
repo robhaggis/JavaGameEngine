@@ -19,7 +19,7 @@ import toolbox.Maths;
 
 public class TerrainRenderer {
 
-	private TerrainShader shader;
+	private final TerrainShader shader;
 
 	public TerrainRenderer(TerrainShader shader, Matrix4f projectionMatrix) {
 		this.shader = shader;

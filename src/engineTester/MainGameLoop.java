@@ -35,8 +35,10 @@ public class MainGameLoop {
 
 		TexturedModel fernModel = new TexturedModel(fern, new ModelTexture(loader.loadTexture("fern")));
 		fernModel.getTexture().setHasTransparency(true);
+		fernModel.getTexture().setUseFakeLighting(true);
 		TexturedModel grassModel = new TexturedModel(grass, new ModelTexture(loader.loadTexture("grassTexture")));
 		grassModel.getTexture().setHasTransparency(true);
+		grassModel.getTexture().setUseFakeLighting(true);
 		
 		List<Entity> entities = new ArrayList<Entity>();
 		Random random = new Random();

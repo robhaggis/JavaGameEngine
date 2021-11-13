@@ -7,6 +7,8 @@ import java.util.Random;
 import models.RawModel;
 import models.TexturedModel;
 
+import objConverter.ModelData;
+import objConverter.OBJFileLoader;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -27,33 +29,39 @@ public class MainGameLoop {
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
 
-		RawModel tree = OBJLoader.loadObjModel("tree", loader);
-		RawModel tree2 = OBJLoader.loadObjModel("lowPolyTree", loader);
-		RawModel fern = OBJLoader.loadObjModel("fern", loader);
-		RawModel grass = OBJLoader.loadObjModel("grassModel", loader);
-		
-		TexturedModel treeModel = new TexturedModel(tree,new ModelTexture(loader.loadTexture("tree")));
+		//Simple Tree
+		ModelData tree = OBJFileLoader.loadOBJ("tree");
+		RawModel treeModel = loader.loadToVAO(tree.getVertices(), tree.getTextureCoords(), tree.getNormals(), tree.getIndices());
+		TexturedModel T_treeModel = new TexturedModel(OBJLoader.loadObjModel("tree", loader), new ModelTexture(loader.loadTexture("tree")));
 
-		TexturedModel fernModel = new TexturedModel(fern, new ModelTexture(loader.loadTexture("fern")));
-		fernModel.getTexture().setHasTransparency(true);
-		fernModel.getTexture().setUseFakeLighting(true);
+		//Low Poly Round Tree
+		ModelData tree2 = OBJFileLoader.loadOBJ("lowPolyTree");
+		RawModel tree2Model = loader.loadToVAO(tree2.getVertices(), tree2.getTextureCoords(), tree2.getNormals(), tree2.getIndices());
+		TexturedModel T_tree2Model = new TexturedModel(OBJLoader.loadObjModel("lowPolyTree", loader), new ModelTexture(loader.loadTexture("lowPolyTree")));
 
-		TexturedModel grassModel = new TexturedModel(grass, new ModelTexture(loader.loadTexture("grassTexture")));
-		grassModel.getTexture().setHasTransparency(true);
-		grassModel.getTexture().setUseFakeLighting(true);
+		//Ferns
+		ModelData fern = OBJFileLoader.loadOBJ("fern");
+		RawModel fernModel = loader.loadToVAO(fern.getVertices(), fern.getTextureCoords(), fern.getNormals(), fern.getIndices());
+		TexturedModel T_fernModel= new TexturedModel(OBJLoader.loadObjModel("fern", loader), new ModelTexture(loader.loadTexture("fern")));
+		T_fernModel.getTexture().setUseFakeLighting(true);
+		T_fernModel.getTexture().setHasTransparency(true);
 
-		TexturedModel tree2Model = new TexturedModel(tree2, new ModelTexture(loader.loadTexture("lowPolyTree")));
-		grassModel.getTexture().setHasTransparency(true);
-		grassModel.getTexture().setUseFakeLighting(true);
+		//Grass
+		ModelData grass = OBJFileLoader.loadOBJ("grass");
+		RawModel grassModel = loader.loadToVAO(grass.getVertices(), grass.getTextureCoords(), grass.getNormals(), grass.getIndices());
+		TexturedModel T_grassModel= new TexturedModel(OBJLoader.loadObjModel("grass", loader), new ModelTexture(loader.loadTexture("grassTexture")));
+		T_grassModel.getTexture().setUseFakeLighting(true);
+		T_grassModel.getTexture().setHasTransparency(true);
+
 
 		
 		List<Entity> entities = new ArrayList<Entity>();
 		Random random = new Random();
 		for(int i=0;i<500;i++){
-			entities.add(new Entity(treeModel, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,3));
-			entities.add(new Entity(grassModel, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,1.5f));
-			entities.add(new Entity(fernModel, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,0.5f));
-			entities.add(new Entity(tree2Model, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,0.5f));
+			entities.add(new Entity(T_treeModel, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,3));
+			entities.add(new Entity(T_tree2Model, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,random.nextFloat()*1.5f-0.9f));
+			entities.add(new Entity(T_fernModel, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,random.nextFloat()*1f-0.3f));
+			entities.add(new Entity(T_grassModel, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,random.nextFloat()*2f-0.3f));
 		}
 		
 		Light light = new Light(new Vector3f(20000,20000,2000),new Vector3f(1,1,1));

@@ -15,9 +15,14 @@ uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform vec3 lightPosition;
 
-//TODO Move to java code fog so can be set dynamically
-const float fogDensity = 0.007;
-const float fogGradient = 1.5;
+//TODO Move to java code so fog can be set dynamically
+//NOTE HEAVY FOG
+//const float fogDensity = 0.007;
+//const float fogGradient = 1.5;
+
+//NOTE Light Haze
+const float fogDensity = 0.0035;
+const float fogGradient = 5.0;
 
 void main(void){
 

@@ -24,6 +24,7 @@ uniform vec3 lightPosition;
 const float fogDensity = 0.0035;
 const float fogGradient = 5.0;
 
+
 void main(void){
 
 	vec4 worldPosition = transformationMatrix * vec4(position,1.0);

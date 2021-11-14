@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import entities.Player;
 import models.RawModel;
 import models.TexturedModel;
 
@@ -60,8 +61,6 @@ public class MainGameLoop {
 		T_fernModel.getTexture().setUseFakeLighting(true);
 		T_fernModel.getTexture().setHasTransparency(true);
 
-
-		//****************************************************
 		
 		List<Entity> entities = new ArrayList<Entity>();
 		Random random = new Random();
@@ -71,6 +70,8 @@ public class MainGameLoop {
 			entities.add(new Entity(T_fernModel, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,0.5f));
 			//entities.add(new Entity(T_grassModel, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,1));
 		}
+
+		//****************************************************
 		
 		Light light = new Light(new Vector3f(20000,20000,2000),new Vector3f(1,1,1));
 		
@@ -79,9 +80,16 @@ public class MainGameLoop {
 		
 		Camera camera = new Camera();	
 		MasterRenderer renderer = new MasterRenderer();
+
+		RawModel bunnyModel = OBJLoader.loadObjModel("stanfordBunny", loader);
+		TexturedModel bunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("white")));
+
+		Player player = new Player(bunny, new Vector3f(0,0,-50),0,0,0,1);
 		
 		while(!Display.isCloseRequested()){
 			camera.move();
+			player.move();
+			renderer.processEntity(player);
 			
 			renderer.processTerrain(terrain);
 			renderer.processTerrain(terrain2);

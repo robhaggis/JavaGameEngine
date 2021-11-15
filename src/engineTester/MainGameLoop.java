@@ -33,7 +33,7 @@ public class MainGameLoop {
 
 		//*********************ENGINE****************************
 		Loader loader = new Loader();
-		MasterRenderer renderer = new MasterRenderer();
+		MasterRenderer renderer = new MasterRenderer(loader);
 
 		//*********************PLAYER****************************
 		RawModel bunnyModel = OBJLoader.loadObjModel("person", loader);

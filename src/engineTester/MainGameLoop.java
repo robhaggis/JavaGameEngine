@@ -77,24 +77,24 @@ public class MainGameLoop {
 		for(int i=0;i<400;i++){
 			float x,y,z;
 			if(i%20==0){
-				x = random.nextFloat() * 800-400;
+				x = random.nextFloat() * 400;
 				z = random.nextFloat() *-600;
 				y = terrain.getHeightOfTerrain(x,z);
 				entities.add(new Entity(grass, new Vector3f(x ,y,z),0,0,0,0.9f));
 
-				x = random.nextFloat() * 800-400;
+				x = random.nextFloat() * 400;
 				z = random.nextFloat() *-600;
 				y = terrain.getHeightOfTerrain(x,z);
 				entities.add(new Entity(fern, random.nextInt(4), new Vector3f(x,y,z),0,random.nextFloat()*360,0,0.9f));
 			}
 			if(i%5==0){
-				x = random.nextFloat() * 800-400;
+				x = random.nextFloat() * 400;
 				z = random.nextFloat() *-600;
 				y = terrain.getHeightOfTerrain(x,z);
 				entities.add(new Entity(lowPolyTree, new Vector3f(x,y,z),0,random.nextFloat()*360,0,random.nextFloat()*0.1f+0.6f));
 
 
-				x = random.nextFloat() * 800-400;
+				x = random.nextFloat() * 400;
 				z = random.nextFloat() *-600;
 				y = terrain.getHeightOfTerrain(x,z);
 				entities.add(new Entity(staticModel, new Vector3f(x,y,z),0,random.nextFloat()*360,0,random.nextFloat()*1+4));

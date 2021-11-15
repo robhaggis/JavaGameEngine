@@ -1,29 +1,25 @@
 package engineTester;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
+import entities.Camera;
+import entities.Entity;
+import entities.Light;
 import entities.Player;
 import models.RawModel;
 import models.TexturedModel;
-
-import objConverter.ModelData;
-import objConverter.OBJFileLoader;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
-
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.MasterRenderer;
 import renderEngine.OBJLoader;
 import terrains.Terrain;
 import textures.ModelTexture;
-import entities.Camera;
-import entities.Entity;
-import entities.Light;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class MainGameLoop {
 

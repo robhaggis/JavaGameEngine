@@ -4,8 +4,8 @@
 	<!ENTITY ns_svg "http://www.w3.org/2000/svg">
 	<!ENTITY ns_xlink "http://www.w3.org/1999/xlink">
 ]>
-<svg  version="1.1" xmlns="&ns_svg;" xmlns:xlink="&ns_xlink;" width="543.281" height="196.23" viewBox="0 0 543.281 196.23"
-	 overflow="visible" enable-background="new 0 0 543.281 196.23" xml:space="preserve">
+<svg version="1.1" xmlns="&ns_svg;" width="543.281" height="196.23" viewBox="0 0 543.281 196.23"
+     overflow="visible" enable-background="new 0 0 543.281 196.23" xml:space="preserve">
 <g id="Layer_6">
 </g>
 <g id="Layer_2">

@@ -3,7 +3,6 @@ package terrains;
 import models.RawModel;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.Loader;
-import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
 
@@ -22,8 +21,8 @@ public class Terrain {
 	private final float x;
 	private final float z;
 	private final RawModel model;
-	private TerrainTexturePack texturePack;
-	private TerrainTexture blendMap;
+	private final TerrainTexturePack texturePack;
+	private final TerrainTexture blendMap;
 	
 	public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, TerrainTexture blendMap, String heightMapName){
 		this.texturePack = texturePack;

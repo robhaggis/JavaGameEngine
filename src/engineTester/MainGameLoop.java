@@ -4,6 +4,8 @@ import entities.Camera;
 import entities.Entity;
 import entities.Light;
 import entities.Player;
+import guis.GUIRenderer;
+import guis.GuiTexture;
 import models.RawModel;
 import models.TexturedModel;
 import org.lwjgl.opengl.Display;
@@ -104,10 +106,18 @@ public class MainGameLoop {
 			}
 		}
 
-		//****************************************************
+		//*********************GUI****************************
 
+		List<GuiTexture> guis = new ArrayList<GuiTexture>();
+		GuiTexture gui = new GuiTexture(loader.loadTexture("GUITestPane"), new Vector2f(0.75f, 0.75f), new Vector2f(0.2f,0.25f));
+		guis.add(gui);
+
+		GUIRenderer guiRenderer = new GUIRenderer(loader);
+
+
+
+		//*********************RENDERING****************************
 		MasterRenderer renderer = new MasterRenderer();
-
 		//MAIN GAME LOOP
 		while(!Display.isCloseRequested()){
 			camera.move();
@@ -119,11 +129,13 @@ public class MainGameLoop {
 				renderer.processEntity(entity);
 			}
 			renderer.render(light, camera);
+			guiRenderer.render(guis);
 			DisplayManager.updateDisplay();
 		}
 
 		renderer.cleanUp();
 		loader.cleanUp();
+		guiRenderer.cleanUp();
 		DisplayManager.closeDisplay();
 
 	}

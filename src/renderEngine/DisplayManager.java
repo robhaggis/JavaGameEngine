@@ -21,7 +21,7 @@ public class DisplayManager {
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH,HEIGHT));
 			Display.create(new PixelFormat(), attribs);
-			Display.setTitle("Java Sim Engine Pre Alpha");
+			Display.setTitle("Sim Engine Pre Alpha");
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}

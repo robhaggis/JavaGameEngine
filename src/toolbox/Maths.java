@@ -18,7 +18,16 @@ public class Maths {
 		Matrix4f.scale(new Vector3f(scale,scale,scale), matrix, matrix);
 		return matrix;
 	}
-	
+
+	public static Matrix4f createTransformationMatrix(Vector2f translation, Vector2f scale) {
+		Matrix4f matrix = new Matrix4f();
+		matrix.setIdentity();
+		Matrix4f.translate(translation, matrix, matrix);
+		Matrix4f.scale(new Vector3f(scale.x, scale.y, 1f), matrix, matrix);
+		return matrix;
+	}
+
+
 	public static Matrix4f createViewMatrix(Camera camera) {
 		Matrix4f viewMatrix = new Matrix4f();
 		viewMatrix.setIdentity();
@@ -38,6 +47,7 @@ public class Maths {
 		float l3 = 1.0f - l1 - l2;
 		return l1 * p1.y + l2 * p2.y + l3 * p3.y;
 	}
+
 
 
 

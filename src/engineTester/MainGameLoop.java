@@ -28,8 +28,12 @@ public class MainGameLoop {
 
 	public static void main(String[] args) {
 
+		//*********************WINDOW****************************
 		DisplayManager.createDisplay();
+
+		//*********************ENGINE****************************
 		Loader loader = new Loader();
+		MasterRenderer renderer = new MasterRenderer();
 
 		//*********************PLAYER****************************
 		RawModel bunnyModel = OBJLoader.loadObjModel("person", loader);
@@ -48,7 +52,6 @@ public class MainGameLoop {
 		TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
 		Terrain terrain = new Terrain(0,-1,loader,texturePack,blendMap, "heightmap");
 
-
 		//*********************ENTITIES****************************
 		RawModel model = OBJLoader.loadObjModel("tree", loader);
 		TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("tree")));
@@ -58,7 +61,6 @@ public class MainGameLoop {
 		TexturedModel lowPolyTree = new TexturedModel(OBJLoader.loadObjModel("lowPolyTree",loader),new ModelTexture(loader.loadTexture("lowPolyTree")));
 		TexturedModel box = new TexturedModel(OBJLoader.loadObjModel("box",loader),new ModelTexture(loader.loadTexture("box")));
 		TexturedModel box2 = new TexturedModel(OBJLoader.loadObjModel("box",loader),new ModelTexture(loader.loadTexture("box")));
-
 
 		//Texture Atlases
 		ModelTexture fernTextureAtlas = new ModelTexture(loader.loadTexture("fern"));
@@ -115,18 +117,14 @@ public class MainGameLoop {
 		entities.add(new Entity(lamp, new Vector3f(150,7.5f,-100),0,0,0,1));
 		entities.add(new Entity(lamp, new Vector3f(75,-1.5f,-50),0,0,0,1));
 
-
 		//*********************GUI****************************
 		List<GuiTexture> guis = new ArrayList<GuiTexture>();
 		GuiTexture gui = new GuiTexture(loader.loadTexture("hpbar"), new Vector2f(-0.7f, -0.9f), new Vector2f(0.4f,0.5f));
 		guis.add(gui);
-
 		GUIRenderer guiRenderer = new GUIRenderer(loader);
 
 
-		//*********************RENDERING****************************
-		MasterRenderer renderer = new MasterRenderer();
-		//MAIN GAME LOOP
+		//*********************MAIN GAME LOOP****************************
 		while(!Display.isCloseRequested()){
 			camera.move();
 			player.move(terrain);

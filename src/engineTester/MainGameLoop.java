@@ -107,7 +107,7 @@ public class MainGameLoop {
 		List<Light> lights = new ArrayList<Light>();
 		lights.add(new Light(new Vector3f(0,10000,-7000),new Vector3f(0.2f,0.2f,0.2f)));
 		lights.add(new Light(new Vector3f(150,7.5f+25,-100),new Vector3f(2,0,0), new Vector3f(1,0.01f,0.002f)));
-		lights.add(new Light(new Vector3f(75,-1.5f+25,-50),new Vector3f(0,2,0), new Vector3f(1,0.01f,0.002f)));
+		lights.add(new Light(new Vector3f(75,-1.5f+25,-50),new Vector3f(2,2,0), new Vector3f(1,0.01f,0.002f)));
 
 		TexturedModel lamp = new TexturedModel(OBJLoader.loadObjModel("lamp",loader),new ModelTexture(loader.loadTexture("lamp")));
 		lamp.getTexture().setUseFakeLighting(true);

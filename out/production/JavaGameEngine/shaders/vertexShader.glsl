@@ -18,6 +18,9 @@ uniform vec3 lightPosition;
 
 uniform float useFakeLighting;
 
+uniform float numberOfRows;
+uniform vec2 offset;
+
 //TODO Move to java code so fog can be set dynamically
 //NOTE HEAVY FOG
 //const float fogDensity = 0.007;
@@ -32,7 +35,7 @@ void main(void){
 	vec4 worldPosition = transformationMatrix * vec4(position,1.0);
 	vec4 positionRelativetoCam = viewMatrix * worldPosition;
 	gl_Position = projectionMatrix * positionRelativetoCam;
-	pass_textureCoordinates = textureCoordinates;
+	pass_textureCoordinates = (textureCoordinates / numberOfRows)+offset;
 
 	vec3 actualNormal = normal;
 	if(useFakeLighting > 0.5){

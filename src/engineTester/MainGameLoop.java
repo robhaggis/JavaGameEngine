@@ -51,14 +51,22 @@ public class MainGameLoop {
 
 		//*********************MODELS****************************
 
+		//Simple Texture
 		RawModel model = OBJLoader.loadObjModel("tree", loader);
 		TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("tree")));
 		TexturedModel grass = new TexturedModel(OBJLoader.loadObjModel("grassModel",loader),new ModelTexture(loader.loadTexture("grassTexture")));
 		TexturedModel flower = new TexturedModel(OBJLoader.loadObjModel("grassModel",loader),new ModelTexture(loader.loadTexture("flower")));
-		TexturedModel fern = new TexturedModel(OBJLoader.loadObjModel("fern",loader),new ModelTexture(loader.loadTexture("fern")));
+
 		TexturedModel lowPolyTree = new TexturedModel(OBJLoader.loadObjModel("lowPolyTree",loader),new ModelTexture(loader.loadTexture("lowPolyTree")));
 		TexturedModel box = new TexturedModel(OBJLoader.loadObjModel("box",loader),new ModelTexture(loader.loadTexture("box")));
 		TexturedModel box2 = new TexturedModel(OBJLoader.loadObjModel("box",loader),new ModelTexture(loader.loadTexture("box")));
+
+
+		//Texture Atlases
+		ModelTexture fernTextureAtlas = new ModelTexture(loader.loadTexture("fern"));
+		fernTextureAtlas.setNumberOfRows(2);
+		TexturedModel fern = new TexturedModel(OBJLoader.loadObjModel("fern",loader),fernTextureAtlas);
+
 
 		//Fake lighting for entities with transparency
 		grass.getTexture().setHasTransparency(true);
@@ -75,9 +83,12 @@ public class MainGameLoop {
 				x = random.nextFloat() * 800-400;
 				z = random.nextFloat() *-600;
 				y = terrain.getHeightOfTerrain(x,z);
-				//entities.add(new Entity(grass, new Vector3f(x ,y,z),0,0,0,0.9f));
-				//entities.add(new Entity(flower, new Vector3f(x,y,z),0,0,0,2.3f));
-				entities.add(new Entity(fern, new Vector3f(x,y,z),0,random.nextFloat()*360,0,0.9f));
+				entities.add(new Entity(grass, new Vector3f(x ,y,z),0,0,0,0.9f));
+
+				x = random.nextFloat() * 800-400;
+				z = random.nextFloat() *-600;
+				y = terrain.getHeightOfTerrain(x,z);
+				entities.add(new Entity(fern, random.nextInt(4), new Vector3f(x,y,z),0,random.nextFloat()*360,0,0.9f));
 			}
 			if(i%5==0){
 				x = random.nextFloat() * 800-400;
@@ -94,9 +105,6 @@ public class MainGameLoop {
 		}
 
 		//****************************************************
-
-
-
 
 		MasterRenderer renderer = new MasterRenderer();
 

@@ -17,9 +17,9 @@ import java.io.IOException;
 
 public class Terrain {
 	
-	private static final float SIZE = 800;
-	private static final float MAX_HEIGHT = 40;
-	private static final float MIN_HEIGHT = -40;
+	private static final float SIZE = 500;
+	private static final float MAX_HEIGHT = 30;
+	private static final float MIN_HEIGHT = -30;
 	private static final float MAX_PIXEL_COLOUR = 256*256*256;
 	
 	private final float x;
@@ -39,6 +39,7 @@ public class Terrain {
 		this.model = generateTerrain(loader, heightMapName);
 	}
 
+
 	public TerrainTexturePack getTexturePack() {
 		return texturePack;
 	}
@@ -57,7 +58,7 @@ public class Terrain {
 		return z;
 	}
 
-
+	public float getSize(){ return SIZE;}
 
 	public RawModel getModel() {
 		return model;

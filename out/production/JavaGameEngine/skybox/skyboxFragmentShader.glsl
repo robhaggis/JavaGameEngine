@@ -16,6 +16,7 @@ void main(void){
     vec4 tex2 = texture(cubeMap2, textureCoords);
     vec4 finalColour = mix(tex1, tex2, blendFactor);
 
+    //NOTE uncomment to enable fog
     //float factor = (textureCoords.y - lowerLimit) / (upperLimit - lowerLimit);
     //factor = clamp(factor,0.0,1.0);
 

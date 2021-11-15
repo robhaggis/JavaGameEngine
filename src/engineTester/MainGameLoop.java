@@ -7,6 +7,7 @@ import entities.Player;
 import models.RawModel;
 import models.TexturedModel;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
@@ -28,7 +29,12 @@ public class MainGameLoop {
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
 
-		//*********************TERRAIN TEXTURES****************************
+		//Player Character
+		RawModel bunnyModel = OBJLoader.loadObjModel("person", loader);
+		TexturedModel bunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("playerTexture")));
+		Player player = new Player(bunny, new Vector3f(100,0,-50),0,180,0, 0.6f);
+
+		//*********************TERRAIN****************************
 		TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grassy2"));
 		TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("mud"));
 		TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("pinkFlowers"));
@@ -36,6 +42,11 @@ public class MainGameLoop {
 
 		TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture,rTexture,gTexture,bTexture);
 		TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
+
+		//Environment stuff
+		Light light = new Light(new Vector3f(20000,40000,2000),new Vector3f(1,1,1));
+		Terrain terrain = new Terrain(0,-1,loader,texturePack,blendMap, "heightmap");
+		Camera camera = new Camera(player);
 
 
 		//*********************MODELS****************************
@@ -59,29 +70,33 @@ public class MainGameLoop {
 		List<Entity> entities = new ArrayList<Entity>();
 		Random random = new Random(123456);
 		for(int i=0;i<400;i++){
+			float x,y,z;
 			if(i%20==0){
-				entities.add(new Entity(grass, new Vector3f(random.nextFloat() *800 - 400, 0,random.nextFloat()*-600),0,0,0,1.8f));
-				entities.add(new Entity(flower, new Vector3f(random.nextFloat() *800 - 400, 0,random.nextFloat()*-600),0,0,0,2.3f));
-				entities.add(new Entity(fern, new Vector3f(random.nextFloat() *800 - 400, 0,random.nextFloat()*-600),0,random.nextFloat()*360,0,0.9f));
+				x = random.nextFloat() * 800-400;
+				z = random.nextFloat() *-600;
+				y = terrain.getHeightOfTerrain(x,z);
+				//entities.add(new Entity(grass, new Vector3f(x ,y,z),0,0,0,0.9f));
+				//entities.add(new Entity(flower, new Vector3f(x,y,z),0,0,0,2.3f));
+				entities.add(new Entity(fern, new Vector3f(x,y,z),0,random.nextFloat()*360,0,0.9f));
 			}
-
 			if(i%5==0){
-				entities.add(new Entity(lowPolyTree, new Vector3f(random.nextFloat() *800 - 400, 0,random.nextFloat()*-600),0,random.nextFloat()*360,0,random.nextFloat()*0.1f+0.6f));
-				entities.add(new Entity(staticModel, new Vector3f(random.nextFloat() *800 - 400, 0,random.nextFloat()*-600),0,random.nextFloat()*360,0,random.nextFloat()*1+4));
-			}
+				x = random.nextFloat() * 800-400;
+				z = random.nextFloat() *-600;
+				y = terrain.getHeightOfTerrain(x,z);
+				entities.add(new Entity(lowPolyTree, new Vector3f(x,y,z),0,random.nextFloat()*360,0,random.nextFloat()*0.1f+0.6f));
 
+
+				x = random.nextFloat() * 800-400;
+				z = random.nextFloat() *-600;
+				y = terrain.getHeightOfTerrain(x,z);
+				entities.add(new Entity(staticModel, new Vector3f(x,y,z),0,random.nextFloat()*360,0,random.nextFloat()*1+4));
+			}
 		}
 
 		//****************************************************
-		//Player Character
-		RawModel bunnyModel = OBJLoader.loadObjModel("person", loader);
-		TexturedModel bunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("playerTexture")));
-		Player player = new Player(bunny, new Vector3f(100,0,-50),0,180,0, 0.6f);
 
-		//Environment stuff
-		Light light = new Light(new Vector3f(20000,40000,2000),new Vector3f(1,1,1));
-		Terrain terrain = new Terrain(0,-1,loader,texturePack,blendMap, "heightmap");
-		Camera camera = new Camera(player);
+
+
 
 		MasterRenderer renderer = new MasterRenderer();
 
@@ -104,5 +119,4 @@ public class MainGameLoop {
 		DisplayManager.closeDisplay();
 
 	}
-
 }

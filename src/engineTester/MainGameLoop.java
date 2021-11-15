@@ -81,10 +81,10 @@ public class MainGameLoop {
 		Camera camera = new Camera();	
 		MasterRenderer renderer = new MasterRenderer();
 
-		RawModel bunnyModel = OBJLoader.loadObjModel("stanfordBunny", loader);
-		TexturedModel bunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("white")));
+		RawModel bunnyModel = OBJLoader.loadObjModel("person", loader);
+		TexturedModel bunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("playerTexture")));
 
-		Player player = new Player(bunny, new Vector3f(0,0,-50),0,0,0,1);
+		Player player = new Player(bunny, new Vector3f(0,0,-50),0,0,0, 0.5f);
 		
 		while(!Display.isCloseRequested()){
 			camera.move();

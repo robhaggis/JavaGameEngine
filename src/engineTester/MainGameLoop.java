@@ -36,24 +36,18 @@ public class MainGameLoop {
 		TexturedModel bunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("playerTexture")));
 		Player player = new Player(bunny, new Vector3f(100,0,-50),0,180,0, 0.6f);
 
+		//*********************CAMERA****************************
+		Camera camera = new Camera(player);
+
 		//*********************TERRAIN****************************
 		TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grassy2"));
 		TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("mud"));
 		TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("pinkFlowers"));
 		TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("mossPath256"));
-
 		TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture,rTexture,gTexture,bTexture);
 		TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
-
-		//*********************ENVIRONMENT****************************
-		//TODO Sort this list based on distance to camera, as then only the most relevant lights will be used to render the scene
-		List<Light> lights = new ArrayList<Light>();
-		lights.add(new Light(new Vector3f(0,10000,-7000),new Vector3f(1,1,1)));
-		lights.add(new Light(new Vector3f(-200,10,-200),new Vector3f(10,1,1)));
-		lights.add(new Light(new Vector3f(200,10,200),new Vector3f(0,0,10)));
-
 		Terrain terrain = new Terrain(0,-1,loader,texturePack,blendMap, "heightmap");
-		Camera camera = new Camera(player);
+
 
 		//*********************ENTITIES****************************
 		RawModel model = OBJLoader.loadObjModel("tree", loader);
@@ -107,6 +101,21 @@ public class MainGameLoop {
 			}
 		}
 
+		//*********************LIGHTING****************************
+		//Note Can add as many lights as needed, but only StaticShader.MAX_LIGHTS will actually affect anything at any one time
+		//TODO Sort this list based on distance to camera, as then only the most relevant lights will be used to render the scene
+		List<Light> lights = new ArrayList<Light>();
+		lights.add(new Light(new Vector3f(0,10000,-7000),new Vector3f(0.2f,0.2f,0.2f)));
+		lights.add(new Light(new Vector3f(150,7.5f+25,-100),new Vector3f(2,0,0), new Vector3f(1,0.01f,0.002f)));
+		lights.add(new Light(new Vector3f(75,-1.5f+25,-50),new Vector3f(0,2,0), new Vector3f(1,0.01f,0.002f)));
+
+		TexturedModel lamp = new TexturedModel(OBJLoader.loadObjModel("lamp",loader),new ModelTexture(loader.loadTexture("lamp")));
+		lamp.getTexture().setUseFakeLighting(true);
+
+		entities.add(new Entity(lamp, new Vector3f(150,7.5f,-100),0,0,0,1));
+		entities.add(new Entity(lamp, new Vector3f(75,-1.5f,-50),0,0,0,1));
+
+
 		//*********************GUI****************************
 		List<GuiTexture> guis = new ArrayList<GuiTexture>();
 		GuiTexture gui = new GuiTexture(loader.loadTexture("hpbar"), new Vector2f(-0.7f, -0.9f), new Vector2f(0.4f,0.5f));
@@ -122,7 +131,7 @@ public class MainGameLoop {
 			camera.move();
 			player.move(terrain);
 			renderer.processEntity(player);
-			
+
 			renderer.processTerrain(terrain);
 			for(Entity entity:entities){
 				renderer.processEntity(entity);

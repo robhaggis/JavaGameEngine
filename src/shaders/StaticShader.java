@@ -10,7 +10,9 @@ import toolbox.Maths;
 import java.util.List;
 
 public class StaticShader extends ShaderProgram{
-
+	//NOTE MAX LIGHTS THAT CAN AFFECT AN OBJECT AT ONE TIME
+	//IF THIS VALUE IS CHANGED< MAX SURE IT IS UPDATED IN ALL LIGHTING CALCULATIONS
+	//IN THE STATIC SHADER.GLSL FILE. DON'T FORGET TO UPDATE THE LOOPS AS WELL
 	private static final int MAX_LIGHTS = 4;
 
 	private static final String VERTEX_FILE = "src/shaders/vertexShader.glsl";
@@ -21,6 +23,7 @@ public class StaticShader extends ShaderProgram{
 	private int location_viewMatrix;
 	private int location_lightPosition[];
 	private int location_lightColour[];
+	private int location_attenuation[];
 	private int location_shineDamper;
 	private int location_reflectivity;
 	private int location_useFakeLighting;
@@ -53,14 +56,13 @@ public class StaticShader extends ShaderProgram{
 
 		location_lightColour = new int[MAX_LIGHTS];
 		location_lightPosition = new int[MAX_LIGHTS];
+		location_attenuation = new int[MAX_LIGHTS];
 
 		for(int i=0;i<MAX_LIGHTS;i++){
 			location_lightPosition[i] = super.getUniformLocation("lightPosition["+i+"]");
 			location_lightColour[i] = super.getUniformLocation("lightColour["+i+"]");
+			location_attenuation[i] = super.getUniformLocation("attenuation["+i+"]");
 		}
-
-
-
 	}
 
 	public void loadNumberOfRows(int numberOfRows){
@@ -92,9 +94,11 @@ public class StaticShader extends ShaderProgram{
 			if(i<lights.size()) {
 				super.load3DVector(location_lightPosition[i], lights.get(i).getPosition());
 				super.load3DVector(location_lightColour[i], lights.get(i).getColour());
+				super.load3DVector(location_attenuation[i], lights.get(i).getAttenuation());
 			}else{
 				super.load3DVector(location_lightPosition[i], new Vector3f(0,0,0));
 				super.load3DVector(location_lightColour[i],  new Vector3f(0,0,0));
+				super.load3DVector(location_attenuation[i], new Vector3f(1,0,0));	//NOTE 1,0,0 = no attenuation
 			}
 		}
 

@@ -6,7 +6,7 @@ in vec3 normal;
 
 out vec2 pass_textureCoordinates;
 out vec3 surfaceNormal;
-out vec3 toLightVector;
+out vec3 toLightVector[4];		//NOTE Number is max amount of lights that can affect an entity at once
 out vec3 toCameraVector;
 out float visibility;
 
@@ -14,7 +14,7 @@ out float visibility;
 uniform mat4 transformationMatrix;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
-uniform vec3 lightPosition;
+uniform vec3 lightPosition[4];	//NOTE same number as toLightVector
 
 uniform float useFakeLighting;
 
@@ -43,7 +43,11 @@ void main(void){
 	}
 	
 	surfaceNormal = (transformationMatrix * vec4(actualNormal,0.0)).xyz;
-	toLightVector = lightPosition - worldPosition.xyz;
+
+	for(int i=0;i<4;i++){	//NOTE same number of loops as length of toLightVector
+		toLightVector[i] = lightPosition[i] - worldPosition.xyz;
+	}
+
 	toCameraVector = (inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;
 
 	float distance = length(positionRelativetoCam.xyz);

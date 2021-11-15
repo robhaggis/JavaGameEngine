@@ -31,7 +31,7 @@ public class MainGameLoop {
 		DisplayManager.createDisplay();
 		Loader loader = new Loader();
 
-		//Player Character
+		//*********************PLAYER****************************
 		RawModel bunnyModel = OBJLoader.loadObjModel("person", loader);
 		TexturedModel bunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("playerTexture")));
 		Player player = new Player(bunny, new Vector3f(100,0,-50),0,180,0, 0.6f);
@@ -45,15 +45,17 @@ public class MainGameLoop {
 		TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture,rTexture,gTexture,bTexture);
 		TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
 
-		//Environment stuff
-		Light light = new Light(new Vector3f(20000,40000,2000),new Vector3f(1,1,1));
+		//*********************ENVIRONMENT****************************
+		//TODO Sort this list based on distance to camera, as then only the most relevant lights will be used to render the scene
+		List<Light> lights = new ArrayList<Light>();
+		lights.add(new Light(new Vector3f(0,10000,-7000),new Vector3f(1,1,1)));
+		lights.add(new Light(new Vector3f(-200,10,-200),new Vector3f(10,1,1)));
+		lights.add(new Light(new Vector3f(200,10,200),new Vector3f(0,0,10)));
+
 		Terrain terrain = new Terrain(0,-1,loader,texturePack,blendMap, "heightmap");
 		Camera camera = new Camera(player);
 
-
-		//*********************MODELS****************************
-
-		//Simple Texture
+		//*********************ENTITIES****************************
 		RawModel model = OBJLoader.loadObjModel("tree", loader);
 		TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("tree")));
 		TexturedModel grass = new TexturedModel(OBJLoader.loadObjModel("grassModel",loader),new ModelTexture(loader.loadTexture("grassTexture")));
@@ -68,7 +70,6 @@ public class MainGameLoop {
 		ModelTexture fernTextureAtlas = new ModelTexture(loader.loadTexture("fern"));
 		fernTextureAtlas.setNumberOfRows(2);
 		TexturedModel fern = new TexturedModel(OBJLoader.loadObjModel("fern",loader),fernTextureAtlas);
-
 
 		//Fake lighting for entities with transparency
 		grass.getTexture().setHasTransparency(true);
@@ -107,13 +108,11 @@ public class MainGameLoop {
 		}
 
 		//*********************GUI****************************
-
 		List<GuiTexture> guis = new ArrayList<GuiTexture>();
 		GuiTexture gui = new GuiTexture(loader.loadTexture("hpbar"), new Vector2f(-0.7f, -0.9f), new Vector2f(0.4f,0.5f));
 		guis.add(gui);
 
 		GUIRenderer guiRenderer = new GUIRenderer(loader);
-
 
 
 		//*********************RENDERING****************************
@@ -128,7 +127,7 @@ public class MainGameLoop {
 			for(Entity entity:entities){
 				renderer.processEntity(entity);
 			}
-			renderer.render(light, camera);
+			renderer.render(lights, camera);
 			guiRenderer.render(guis);
 			DisplayManager.updateDisplay();
 		}

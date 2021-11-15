@@ -77,19 +77,20 @@ public class MainGameLoop {
 		}
 
 		//****************************************************
-		
-		Light light = new Light(new Vector3f(20000,40000,2000),new Vector3f(1,1,1));
-		
-		Terrain terrain = new Terrain(0,-1,loader,texturePack,blendMap, "heightmap");
-		Terrain terrain2 = new Terrain(-1,-1,loader,texturePack,blendMap, "heightmap");
-
+		//Player Character
 		RawModel bunnyModel = OBJLoader.loadObjModel("person", loader);
 		TexturedModel bunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("playerTexture")));
 		Player player = new Player(bunny, new Vector3f(100,0,-50),0,180,0, 0.6f);
 
+		//Environment stuff
+		Light light = new Light(new Vector3f(20000,40000,2000),new Vector3f(1,1,1));
+		Terrain terrain = new Terrain(0,-1,loader,texturePack,blendMap, "heightmap");
+		Terrain terrain2 = new Terrain(-1,-1,loader,texturePack,blendMap, "heightmap");
 		Camera camera = new Camera(player);
+
 		MasterRenderer renderer = new MasterRenderer();
 
+		//MAIN GAME LOOP
 		while(!Display.isCloseRequested()){
 			camera.move();
 			player.move();

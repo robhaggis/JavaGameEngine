@@ -40,6 +40,11 @@ public class Loader {
 		try {
 			texture = TextureLoader.getTexture("PNG",
 					new FileInputStream("res/" + fileName + ".png"));
+
+			//NOTE Mipmapping
+			GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+			GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.err.println("Tried to load texture " + fileName + ".png , didn't work");

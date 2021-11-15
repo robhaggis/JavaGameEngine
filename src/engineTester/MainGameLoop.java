@@ -61,6 +61,11 @@ public class MainGameLoop {
 		T_fernModel.getTexture().setUseFakeLighting(true);
 		T_fernModel.getTexture().setHasTransparency(true);
 
+		//Box
+		ModelData box = OBJFileLoader.loadOBJ("box");
+		RawModel boxModel = loader.loadToVAO(box.getVertices(), box.getTextureCoords(), box.getNormals(), box.getIndices());
+		TexturedModel T_boxModel = new TexturedModel(OBJLoader.loadObjModel("box", loader), new ModelTexture(loader.loadTexture("box")));
+
 		
 		List<Entity> entities = new ArrayList<Entity>();
 		Random random = new Random();
@@ -68,6 +73,7 @@ public class MainGameLoop {
 			entities.add(new Entity(T_treeModel, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,3));
 			entities.add(new Entity(T_tree2Model, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,0.5f));
 			entities.add(new Entity(T_fernModel, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,0.5f));
+			entities.add(new Entity(T_boxModel, new Vector3f(random.nextFloat()*800 - 400,3,random.nextFloat() * -600),0,0,0,3));
 		}
 
 		//****************************************************

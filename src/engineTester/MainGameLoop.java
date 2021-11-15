@@ -19,6 +19,7 @@ import terrains.Terrain;
 import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
+import toolbox.MousePicker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,26 +109,38 @@ public class MainGameLoop {
 		//TODO Sort this list based on distance to camera, as then only the most relevant lights will be used to render the scene
 		List<Light> lights = new ArrayList<Light>();
 		lights.add(new Light(new Vector3f(0,10000,-7000),new Vector3f(0.2f,0.2f,0.2f)));
-		lights.add(new Light(new Vector3f(150,7.5f+25,-100),new Vector3f(2,0,0), new Vector3f(1,0.01f,0.002f)));
-		lights.add(new Light(new Vector3f(75,-1.5f+25,-50),new Vector3f(2,2,0), new Vector3f(1,0.01f,0.002f)));
+
+		//TODO Bundle lights and lamps together into new lamp entity
+		Light light = new Light(new Vector3f(150,7.5f+15,-100), new Vector3f(0,2,2), new Vector3f(1,0.01f,0.002f));
+		lights.add(light);
 
 		TexturedModel lamp = new TexturedModel(OBJLoader.loadObjModel("lamp",loader),new ModelTexture(loader.loadTexture("lamp")));
 		lamp.getTexture().setUseFakeLighting(true);
 
-		entities.add(new Entity(lamp, new Vector3f(150,7.5f,-100),0,0,0,1));
-		entities.add(new Entity(lamp, new Vector3f(75,-1.5f,-50),0,0,0,1));
+		Entity lampEntity = new Entity(lamp, new Vector3f(150,7.5f,-100),0,0,0,1);
+		entities.add(lampEntity);
 
 		//*********************GUI****************************
 		List<GuiTexture> guis = new ArrayList<GuiTexture>();
 		GuiTexture gui = new GuiTexture(loader.loadTexture("hpbar"), new Vector2f(-0.7f, -0.9f), new Vector2f(0.4f,0.5f));
 		guis.add(gui);
 		GUIRenderer guiRenderer = new GUIRenderer(loader);
+		MousePicker picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
 
 
 		//*********************MAIN GAME LOOP****************************
 		while(!Display.isCloseRequested()){
-			camera.move();
 			player.move(terrain);
+			camera.move();
+
+			picker.update();
+
+			//Stick lamp to mouse cursor
+			Vector3f terrainPoint = picker.getCurrentTerrainPoint();
+			if(terrainPoint != null){
+				lampEntity.setPosition(terrainPoint);
+				light.setPosition(new Vector3f(terrainPoint.x, terrainPoint.y+15, terrainPoint.z));
+			}
 			renderer.processEntity(player);
 
 			renderer.processTerrain(terrain);

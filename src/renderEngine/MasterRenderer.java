@@ -26,20 +26,16 @@ public class MasterRenderer {
 	private static final float SKY_GREEN = 0.62f;
 	private static final float SKY_BLUE = 0.69f;
 
-	
 	private Matrix4f projectionMatrix;
 	
 	private final StaticShader shader = new StaticShader();
 	private final EntityRenderer renderer;
-	
 	private final TerrainRenderer terrainRenderer;
 	private final TerrainShader terrainShader = new TerrainShader();
-	
+	private SkyboxRenderer skyboxRenderer;
 	
 	private final Map<TexturedModel,List<Entity>> entities = new HashMap<TexturedModel,List<Entity>>();
 	private final List<Terrain> terrains = new ArrayList<Terrain>();
-
-	private SkyboxRenderer skyboxRenderer;
 
 	public MasterRenderer(Loader loader){
 		enableCulling();
@@ -72,7 +68,7 @@ public class MasterRenderer {
 		terrainShader.loadViewMatrix(camera);
 		terrainRenderer.render(terrains);
 		terrainShader.stop();
-		skyboxRenderer.render(camera);
+		skyboxRenderer.render(camera, SKY_RED, SKY_GREEN, SKY_BLUE);
 		terrains.clear();
 		entities.clear();
 	}

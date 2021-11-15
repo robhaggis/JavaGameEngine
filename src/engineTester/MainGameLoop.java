@@ -109,7 +109,7 @@ public class MainGameLoop {
 		//*********************GUI****************************
 
 		List<GuiTexture> guis = new ArrayList<GuiTexture>();
-		GuiTexture gui = new GuiTexture(loader.loadTexture("GUITestPane"), new Vector2f(0.75f, 0.75f), new Vector2f(0.2f,0.25f));
+		GuiTexture gui = new GuiTexture(loader.loadTexture("hpbar"), new Vector2f(-0.7f, -0.9f), new Vector2f(0.4f,0.5f));
 		guis.add(gui);
 
 		GUIRenderer guiRenderer = new GUIRenderer(loader);

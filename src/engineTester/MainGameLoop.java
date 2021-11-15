@@ -68,7 +68,6 @@ public class MainGameLoop {
 			entities.add(new Entity(T_treeModel, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,3));
 			entities.add(new Entity(T_tree2Model, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,0.5f));
 			entities.add(new Entity(T_fernModel, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,0.5f));
-			//entities.add(new Entity(T_grassModel, new Vector3f(random.nextFloat()*800 - 400,0,random.nextFloat() * -600),0,0,0,1));
 		}
 
 		//****************************************************
@@ -85,10 +84,6 @@ public class MainGameLoop {
 		Camera camera = new Camera(player);
 		MasterRenderer renderer = new MasterRenderer();
 
-
-
-
-		
 		while(!Display.isCloseRequested()){
 			camera.move();
 			player.move();

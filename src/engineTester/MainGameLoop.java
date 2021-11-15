@@ -108,10 +108,13 @@ public class MainGameLoop {
 		//Note Can add as many lights as needed for the scene, but only #StaticShader.MAX_LIGHTS# will actually affect anything at any one time
 		//TODO Sort this list based on distance to camera, as then only the most relevant lights will be used to render the scene
 		List<Light> lights = new ArrayList<Light>();
+
+		//Note: Sun
+		//TODO: Set sun based on time of day
 		lights.add(new Light(new Vector3f(0,10000,-7000),new Vector3f(0.2f,0.2f,0.2f)));
 
 		//TODO Bundle lights and lamps together into new lamp entity
-		Light light = new Light(new Vector3f(150,7.5f+15,-100), new Vector3f(0,2,2), new Vector3f(1,0.01f,0.002f));
+		Light light = new Light(new Vector3f(150,7.5f+15,-100), new Vector3f(2,0,2), new Vector3f(1,0.01f,0.002f));
 		lights.add(light);
 
 		TexturedModel lamp = new TexturedModel(OBJLoader.loadObjModel("lamp",loader),new ModelTexture(loader.loadTexture("lamp")));

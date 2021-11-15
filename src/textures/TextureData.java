@@ -4,9 +4,9 @@ import java.nio.ByteBuffer;
 
 public class TextureData {
 
-    private int width;
-    private int height;
-    private ByteBuffer buffer;
+    private final int width;
+    private final int height;
+    private final ByteBuffer buffer;
 
     public TextureData(ByteBuffer buffer, int width, int height) {
         this.width = width;

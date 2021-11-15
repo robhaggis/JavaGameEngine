@@ -14,7 +14,7 @@ import java.util.List;
 public class GUIRenderer {
 
     private final RawModel quad;
-    private GuiShader shader;
+    private final GuiShader shader;
 
     public GUIRenderer(Loader loader){
         float[] positions = {-1,1,-1,-1,1,1,1,-1};

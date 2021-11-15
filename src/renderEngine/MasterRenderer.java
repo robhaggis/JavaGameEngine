@@ -32,7 +32,7 @@ public class MasterRenderer {
 	private final EntityRenderer renderer;
 	private final TerrainRenderer terrainRenderer;
 	private final TerrainShader terrainShader = new TerrainShader();
-	private SkyboxRenderer skyboxRenderer;
+	private final SkyboxRenderer skyboxRenderer;
 	
 	private final Map<TexturedModel,List<Entity>> entities = new HashMap<TexturedModel,List<Entity>>();
 	private final List<Terrain> terrains = new ArrayList<Terrain>();

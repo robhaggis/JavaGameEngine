@@ -59,13 +59,13 @@ public class SkyboxRenderer {
     };
 
     //NOTE Skybox face order is right/left/top/bottom/back/front
-    private static String[] TEXTURE_FILES_DAY = {"sky-right", "sky-left", "sky-top", "sky-bottom", "sky-back", "sky-front"};
-    private static String[] TEXTURE_FILES_NIGHT = {"sky-nightRight", "sky-nightLeft", "sky-nightTop", "sky-nightBottom", "sky-nightBack", "sky-nightFront"};
+    private static final String[] TEXTURE_FILES_DAY = {"sky-right", "sky-left", "sky-top", "sky-bottom", "sky-back", "sky-front"};
+    private static final String[] TEXTURE_FILES_NIGHT = {"sky-nightRight", "sky-nightLeft", "sky-nightTop", "sky-nightBottom", "sky-nightBack", "sky-nightFront"};
 
-    private RawModel cube;
-    private int dayTexture;
-    private int nightTexture;
-    private  SkyboxShader shader;
+    private final RawModel cube;
+    private final int dayTexture;
+    private final int nightTexture;
+    private final SkyboxShader shader;
     private float time = 0;
 
 
@@ -101,7 +101,7 @@ public class SkyboxRenderer {
         float blendFactor;
 
         //TODO Tweak Day/Night Cycle settings
-        //TODO Adjust fog colour based on time of day
+        //TODO Abstract Time of day to its own class
         if(time >= 0 && time < 5000){
             texture1 = nightTexture;
             texture2 = nightTexture;

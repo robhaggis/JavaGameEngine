@@ -1,14 +1,13 @@
 package toolbox;
 
+import entities.Camera;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import org.lwjgl.util.vector.Vector4f;
-
 import terrains.Terrain;
-import entities.Camera;
 
 public class MousePicker {
 
@@ -17,11 +16,11 @@ public class MousePicker {
 
     private Vector3f currentRay = new Vector3f();
 
-    private Matrix4f projectionMatrix;
+    private final Matrix4f projectionMatrix;
     private Matrix4f viewMatrix;
-    private Camera camera;
+    private final Camera camera;
 
-    private Terrain terrain;
+    private final Terrain terrain;
     private Vector3f currentTerrainPoint;
 
     public MousePicker(Camera cam, Matrix4f projection, Terrain terrain) {
@@ -109,11 +108,7 @@ public class MousePicker {
     private boolean intersectionInRange(float start, float finish, Vector3f ray) {
         Vector3f startPoint = getPointOnRay(ray, start);
         Vector3f endPoint = getPointOnRay(ray, finish);
-        if (!isUnderGround(startPoint) && isUnderGround(endPoint)) {
-            return true;
-        } else {
-            return false;
-        }
+        return !isUnderGround(startPoint) && isUnderGround(endPoint);
     }
 
     private boolean isUnderGround(Vector3f testPoint) {
@@ -122,11 +117,7 @@ public class MousePicker {
         if (terrain != null) {
             height = terrain.getHeightOfTerrain(testPoint.getX(), testPoint.getZ());
         }
-        if (testPoint.y < height) {
-            return true;
-        } else {
-            return false;
-        }
+        return testPoint.y < height;
     }
 
     private Terrain getTerrain(float worldX, float worldZ) {

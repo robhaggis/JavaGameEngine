@@ -15,8 +15,6 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.lwjgl.opengl.GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X;
-
 public class Loader {
 	
 	private final List<Integer> vaos = new ArrayList<Integer>();

@@ -93,7 +93,7 @@ public class MainGameLoop {
 		fern.getTexture().setHasTransparency(true);
 
 
-		Random random = new Random(123456);
+		Random random = new Random();
 		for(int i=0;i<200;i++){
 			float x,y,z;
 			if(i%20==0){
@@ -140,25 +140,20 @@ public class MainGameLoop {
 		Entity lampEntity = new Entity(lamp, new Vector3f(75,2.5f,-75),0,0,0,1);
 		entities.add(lampEntity);
 
-		//*********************WATER****************************
-		WaterShader waterShader = new WaterShader();
-		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix());
-		List<WaterTile> waters = new ArrayList<WaterTile>();
-		WaterTile water = new WaterTile(200,-200, 0);
-		waters.add(water);
-
-		WaterFrameBuffers fbos = new WaterFrameBuffers();
-
-
 		//*********************GUI****************************
 		List<GuiTexture> guis = new ArrayList<GuiTexture>();
 		GUIRenderer guiRenderer = new GUIRenderer(loader);
 		GuiTexture healthPanel = new GuiTexture(loader.loadTexture("hpbar"), new Vector2f(-0.7f, -0.9f), new Vector2f(0.4f,0.5f));
 		guis.add(healthPanel);
-		GuiTexture refraction = new GuiTexture(fbos.getRefractionTexture(), new Vector2f(0.5f,0.5f), new Vector2f(0.25f, 0.25f));
-		GuiTexture reflection = new GuiTexture(fbos.getReflectionTexture(), new Vector2f(-0.5f,0.5f), new Vector2f(0.25f, 0.25f));
-		guis.add(refraction);
-		guis.add(reflection);
+
+
+		//*********************WATER****************************
+		WaterFrameBuffers fbos = new WaterFrameBuffers();
+		WaterShader waterShader = new WaterShader();
+		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix(), fbos);
+		List<WaterTile> waters = new ArrayList<WaterTile>();
+		WaterTile water = new WaterTile(200,-200, 0);
+		waters.add(water);
 
 		MousePicker picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
 
@@ -172,7 +167,13 @@ public class MainGameLoop {
 
 			//Render Water Reflection i.e everything above the water
 			fbos.bindReflectionFrameBuffer();
-			renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0,1,0,-water.getHeight()));;
+			float distance = 2* (camera.getPosition().y - water.getHeight());
+			//Camera fuckery to make sure we render a reflection, not just the same scene
+			camera.getPosition().y -= distance;
+			camera.invertPitch();
+			renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0,1,0,-water.getHeight()));
+			camera.getPosition().y += distance;
+			camera.invertPitch();
 
 			//Render Water Refraction i.e everything below the water
 			fbos.bindRefractionFrameBuffer();
@@ -180,12 +181,12 @@ public class MainGameLoop {
 
 
 			//Stick lamp to mouse cursor
-//			Vector3f terrainPoint = picker.getCurrentTerrainPoint();
-//			if(terrainPoint != null){
-//				lampEntity.setPosition(terrainPoint);
-//				light.setPosition(new Vector3f(terrainPoint.x, terrainPoint.y+15, terrainPoint.z));
-//			}
-			//
+			Vector3f terrainPoint = picker.getCurrentTerrainPoint();
+			if(terrainPoint != null){
+				lampEntity.setPosition(terrainPoint);
+				light.setPosition(new Vector3f(terrainPoint.x, terrainPoint.y+15, terrainPoint.z));
+			}
+
 
 			//Render Scene
 			GL11.glDisable(GL30.GL_CLIP_DISTANCE0);

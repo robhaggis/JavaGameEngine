@@ -1,5 +1,6 @@
 package water;
 
+import org.lwjgl.examples.spaceinvaders.Texture;
 import org.lwjgl.util.vector.Matrix4f;
 import shaders.ShaderProgram;
 import toolbox.Maths;
@@ -13,6 +14,8 @@ public class WaterShader extends ShaderProgram {
 	private int location_modelMatrix;
 	private int location_viewMatrix;
 	private int location_projectionMatrix;
+	private int location_reflectTexture;
+	private int location_refractTexture;
 
 	public WaterShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE);
@@ -28,6 +31,14 @@ public class WaterShader extends ShaderProgram {
 		location_projectionMatrix = getUniformLocation("projectionMatrix");
 		location_viewMatrix = getUniformLocation("viewMatrix");
 		location_modelMatrix = getUniformLocation("modelMatrix");
+		location_reflectTexture = getUniformLocation("reflectionTexture");
+		location_refractTexture = getUniformLocation("refractionTexture");
+
+	}
+
+	public void connectTextureUnits(){
+		super.loadInt(location_reflectTexture, 0);
+		super.loadInt(location_refractTexture, 1);
 	}
 
 	public void loadProjectionMatrix(Matrix4f projection) {

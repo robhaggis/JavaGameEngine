@@ -66,7 +66,7 @@ public class SkyboxRenderer {
     private final int dayTexture;
     private final int nightTexture;
     private final SkyboxShader shader;
-    private float time = 0;
+    private float time = 12000;
 
 
     public SkyboxRenderer(Loader loader, Matrix4f projectionMatrix){
@@ -94,7 +94,7 @@ public class SkyboxRenderer {
     }
 
     private void bindTextures(){
-        time += DisplayManager.getDT() * 1000;
+        time += DisplayManager.getDT() * 100;
         time %= 24000;
         int texture1;
         int texture2;

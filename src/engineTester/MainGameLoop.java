@@ -132,13 +132,13 @@ public class MainGameLoop {
 		lights.add(sun);
 
 		//TODO Bundle lights and lamps together into new lamp entity
-		Light light = new Light(new Vector3f(75,2.5f+15,-75), new Vector3f(2,2,0), new Vector3f(1,0.01f,0.002f));
+		Light light = new Light(new Vector3f(75,5f+15,-75), new Vector3f(2,2,0), new Vector3f(1,0.01f,0.002f));
 		lights.add(light);
 
 		TexturedModel lamp = new TexturedModel(OBJLoader.loadObjModel("lamp",loader),new ModelTexture(loader.loadTexture("lamp")));
 		lamp.getTexture().setUseFakeLighting(true);
 
-		Entity lampEntity = new Entity(lamp, new Vector3f(75,2.5f,-75),0,0,0,1);
+		Entity lampEntity = new Entity(lamp, new Vector3f(75,5f,-75),0,0,0,1);
 		entities.add(lampEntity);
 
 		//*********************GUI****************************
@@ -172,7 +172,7 @@ public class MainGameLoop {
 			//Camera fuckery to make sure we render a reflection, not just the same scene
 			camera.getPosition().y -= distance;
 			camera.invertPitch();
-			renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0,1,0,-water.getHeight()));
+			renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0,1,0,-water.getHeight()+0.5f)); 	//plus 0.5 to get rid of edge glitch
 			camera.getPosition().y += distance;
 			camera.invertPitch();
 

@@ -21,8 +21,11 @@ import java.util.Map;
 public class MasterRenderer {
 	
 	private static final float FOV = 70;
+
+	//NOTE CHANGE NEAR AND FAR PLANE VALUES IN WATER FRAGMENT SHADER IF YOU CHANGE THESE
 	private static final float NEAR_PLANE = 0.1f;
-	private static final float FAR_PLANE = 1000;
+	private static final float FAR_PLANE = 1000.0f;
+
 	private static final float SKY_RED = 0.5444f;
 	private static final float SKY_GREEN = 0.62f;
 	private static final float SKY_BLUE = 0.69f;

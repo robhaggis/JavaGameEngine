@@ -20,6 +20,7 @@ import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
 import toolbox.MousePicker;
+import water.WaterFrameBuffers;
 import water.WaterRenderer;
 import water.WaterShader;
 import water.WaterTile;
@@ -142,19 +143,28 @@ public class MainGameLoop {
 		List<WaterTile> waters = new ArrayList<WaterTile>();
 		waters.add(new WaterTile(125,-75,-5));
 
+		WaterFrameBuffers fbos = new WaterFrameBuffers();
+
+
 		//*********************GUI****************************
 		List<GuiTexture> guis = new ArrayList<GuiTexture>();
-		GuiTexture gui = new GuiTexture(loader.loadTexture("hpbar"), new Vector2f(-0.7f, -0.9f), new Vector2f(0.4f,0.5f));
-		guis.add(gui);
+		GuiTexture healthPanel = new GuiTexture(loader.loadTexture("hpbar"), new Vector2f(-0.7f, -0.9f), new Vector2f(0.4f,0.5f));
+		guis.add(healthPanel);
 		GUIRenderer guiRenderer = new GUIRenderer(loader);
 		MousePicker picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
-
+		GuiTexture reflectPanel = new GuiTexture(fbos.getReflectionTexture(), new Vector2f(-0.5f,0.5f), new Vector2f(0.5f, 0.5f));
+		guis.add(reflectPanel);
 
 		//*********************MAIN GAME LOOP****************************
 		while(!Display.isCloseRequested()){
 			player.move(terrain);
 			camera.move();
 			picker.update();
+
+			fbos.bindReflectionFrameBuffer();
+			renderer.renderScene(entities, terrains, lights, camera);
+			fbos.unbindCurrentFrameBuffer();
+
 			//Stick lamp to mouse cursor
 //			Vector3f terrainPoint = picker.getCurrentTerrainPoint();
 //			if(terrainPoint != null){
@@ -168,6 +178,7 @@ public class MainGameLoop {
 			DisplayManager.updateDisplay();
 		}
 
+		fbos.cleanUp();
 		waterShader.cleanUp();
 		renderer.cleanUp();
 		loader.cleanUp();

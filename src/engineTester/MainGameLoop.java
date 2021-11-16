@@ -52,7 +52,7 @@ public class MainGameLoop {
 		//*********************PLAYER****************************
 		RawModel bunnyModel = OBJLoader.loadObjModel("person", loader);
 		TexturedModel bunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("playerTexture")));
-		Player player = new Player(bunny, new Vector3f(100,0,-50),0,180,0, 0.6f);
+		Player player = new Player(bunny, new Vector3f(200,0,-200),0,180,0, 0.6f);
 
 		//*********************CAMERA****************************
 		Camera camera = new Camera(player);

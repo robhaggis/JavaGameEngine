@@ -128,7 +128,8 @@ public class MainGameLoop {
 
 		//Note: Sun
 		//TODO: Set sun based on time of day
-		lights.add(new Light(new Vector3f(0,10000,-7000),new Vector3f(0.4f,0.4f,0.4f)));
+		Light sun = new Light(new Vector3f(0,10000,-7000),new Vector3f(0.4f,0.4f,0.4f));
+		lights.add(sun);
 
 		//TODO Bundle lights and lamps together into new lamp entity
 		Light light = new Light(new Vector3f(75,2.5f+15,-75), new Vector3f(2,2,0), new Vector3f(1,0.01f,0.002f));
@@ -192,7 +193,7 @@ public class MainGameLoop {
 			GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
 			fbos.unbindCurrentFrameBuffer();
 			renderer.renderScene(entities, terrains, lights, camera,new Vector4f(0,-1,0,100000));
-			waterRenderer.render(waters,camera);
+			waterRenderer.render(waters,camera, sun);
 			guiRenderer.render(guis);
 			DisplayManager.updateDisplay();
 		}

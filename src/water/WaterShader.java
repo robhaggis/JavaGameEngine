@@ -1,5 +1,6 @@
 package water;
 
+import entities.Light;
 import org.lwjgl.examples.spaceinvaders.Texture;
 import org.lwjgl.util.vector.Matrix3f;
 import org.lwjgl.util.vector.Matrix4f;
@@ -21,6 +22,9 @@ public class WaterShader extends ShaderProgram {
 	private int location_dudvMap;
 	private int location_moveFactor;
 	private int location_cameraPosition;
+	private int location_normalMap;
+	private int location_lightColour;
+	private int location_lightPosition;
 
 	public WaterShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE);
@@ -41,14 +45,23 @@ public class WaterShader extends ShaderProgram {
 		location_dudvMap = getUniformLocation("dudvMap");
 		location_moveFactor = getUniformLocation("moveFactor");
 		location_cameraPosition = getUniformLocation("cameraPosition");
+		location_normalMap = getUniformLocation("normalMap");
+		location_lightColour = getUniformLocation("lightColour");
+		location_lightPosition = getUniformLocation("lightPosition");
 	}
 
 	public void connectTextureUnits(){
 		super.loadInt(location_reflectTexture, 0);
 		super.loadInt(location_refractTexture, 1);
 		super.loadInt(location_dudvMap, 2);
+		super.loadInt(location_normalMap, 3);
 	}
 
+	public void loadLight(Light sun){
+		super.load3DVector(location_lightPosition, sun.getPosition());
+		super.load3DVector(location_lightColour, sun.getColour());
+
+	}
 
 
 	public void loadMoveFactor(float factor){

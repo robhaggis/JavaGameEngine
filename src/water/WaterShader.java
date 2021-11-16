@@ -16,6 +16,7 @@ public class WaterShader extends ShaderProgram {
 	private int location_projectionMatrix;
 	private int location_reflectTexture;
 	private int location_refractTexture;
+	private int location_dudvMap;
 
 	public WaterShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE);
@@ -33,12 +34,14 @@ public class WaterShader extends ShaderProgram {
 		location_modelMatrix = getUniformLocation("modelMatrix");
 		location_reflectTexture = getUniformLocation("reflectionTexture");
 		location_refractTexture = getUniformLocation("refractionTexture");
+		location_dudvMap = getUniformLocation("dudvMap");
 
 	}
 
 	public void connectTextureUnits(){
 		super.loadInt(location_reflectTexture, 0);
 		super.loadInt(location_refractTexture, 1);
+		super.loadInt(location_dudvMap, 2);
 	}
 
 	public void loadProjectionMatrix(Matrix4f projection) {

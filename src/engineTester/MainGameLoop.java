@@ -181,11 +181,11 @@ public class MainGameLoop {
 
 
 			//Stick lamp to mouse cursor
-			Vector3f terrainPoint = picker.getCurrentTerrainPoint();
-			if(terrainPoint != null){
-				lampEntity.setPosition(terrainPoint);
-				light.setPosition(new Vector3f(terrainPoint.x, terrainPoint.y+15, terrainPoint.z));
-			}
+//			Vector3f terrainPoint = picker.getCurrentTerrainPoint();
+//			if(terrainPoint != null){
+//				lampEntity.setPosition(terrainPoint);
+//				light.setPosition(new Vector3f(terrainPoint.x, terrainPoint.y+15, terrainPoint.z));
+//			}
 
 
 			//Render Scene

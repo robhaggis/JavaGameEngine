@@ -36,15 +36,9 @@ public class MainGameLoop {
 		Loader loader = new Loader();
 		MasterRenderer renderer = new MasterRenderer(loader);
 
-		//*********************PLAYER****************************
-		RawModel bunnyModel = OBJLoader.loadObjModel("person", loader);
-		TexturedModel bunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("playerTexture")));
-		Player player = new Player(bunny, new Vector3f(100,0,-50),0,180,0, 0.6f);
-
-		//*********************CAMERA****************************
-		Camera camera = new Camera(player);
-
 		//*********************TERRAIN****************************
+		List<Terrain> terrains = new ArrayList<Terrain>();
+
 		TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grassy2"));
 		TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("mud"));
 		TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("pinkFlowers"));
@@ -53,7 +47,21 @@ public class MainGameLoop {
 		TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
 		Terrain terrain = new Terrain(0,-1,loader,texturePack,blendMap, "heightmap");
 
+		terrains.add(terrain);
+
+		//*********************PLAYER****************************
+		RawModel bunnyModel = OBJLoader.loadObjModel("person", loader);
+		TexturedModel bunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("playerTexture")));
+		Player player = new Player(bunny, new Vector3f(100,0,-50),0,180,0, 0.6f);
+
+		//*********************CAMERA****************************
+		Camera camera = new Camera(player);
+
+
 		//*********************ENTITIES****************************
+
+		List<Entity> entities = new ArrayList<Entity>();
+		entities.add(player);
 		RawModel model = OBJLoader.loadObjModel("tree", loader);
 		TexturedModel staticModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("tree")));
 		TexturedModel grass = new TexturedModel(OBJLoader.loadObjModel("grassModel",loader),new ModelTexture(loader.loadTexture("grassTexture")));
@@ -77,7 +85,7 @@ public class MainGameLoop {
 		flower.getTexture().setUseFakeLighting(true);
 		fern.getTexture().setHasTransparency(true);
 
-		List<Entity> entities = new ArrayList<Entity>();
+
 		Random random = new Random(123456);
 		for(int i=0;i<400;i++){
 			float x,y,z;
@@ -137,22 +145,15 @@ public class MainGameLoop {
 		while(!Display.isCloseRequested()){
 			player.move(terrain);
 			camera.move();
-
 			picker.update();
-
 			//Stick lamp to mouse cursor
 //			Vector3f terrainPoint = picker.getCurrentTerrainPoint();
 //			if(terrainPoint != null){
 //				lampEntity.setPosition(terrainPoint);
 //				light.setPosition(new Vector3f(terrainPoint.x, terrainPoint.y+15, terrainPoint.z));
 //			}
-			renderer.processEntity(player);
 
-			renderer.processTerrain(terrain);
-			for(Entity entity:entities){
-				renderer.processEntity(entity);
-			}
-			renderer.render(lights, camera);
+			renderer.renderScene(entities, terrains, lights, camera);
 			guiRenderer.render(guis);
 			DisplayManager.updateDisplay();
 		}

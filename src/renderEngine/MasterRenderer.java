@@ -76,6 +76,16 @@ public class MasterRenderer {
 		terrains.clear();
 		entities.clear();
 	}
+
+	public void renderScene(List<Entity> entities, List<Terrain> terrains, List<Light> lights, Camera camera){
+		for(Terrain terrain : terrains){
+			processTerrain(terrain);
+		}
+		for(Entity entity : entities){
+			processEntity(entity);
+		}
+		render(lights, camera);
+	}
 	
 	public void processTerrain(Terrain terrain){
 		terrains.add(terrain);

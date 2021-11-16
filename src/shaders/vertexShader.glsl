@@ -27,12 +27,19 @@ uniform vec2 offset;
 //const float fogGradient = 1.5;
 
 //NOTE Light Haze
-const float fogDensity = 0.0035;
+//const float fogDensity = 0.0035;
+//const float fogGradient = 5.0;
+
+//NOTE No Fog
+const float fogDensity = 0;
 const float fogGradient = 5.0;
 
 void main(void){
 
 	vec4 worldPosition = transformationMatrix * vec4(position,1.0);
+
+	gl_ClipDistance[0] = -1;
+
 	vec4 positionRelativetoCam = viewMatrix * worldPosition;
 	gl_Position = projectionMatrix * positionRelativetoCam;
 	pass_textureCoordinates = (textureCoordinates / numberOfRows)+offset;

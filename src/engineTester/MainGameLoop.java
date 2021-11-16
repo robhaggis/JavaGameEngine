@@ -9,6 +9,8 @@ import guis.GuiTexture;
 import models.RawModel;
 import models.TexturedModel;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
@@ -153,13 +155,15 @@ public class MainGameLoop {
 		GUIRenderer guiRenderer = new GUIRenderer(loader);
 		MousePicker picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
 		GuiTexture reflectPanel = new GuiTexture(fbos.getReflectionTexture(), new Vector2f(-0.5f,0.5f), new Vector2f(0.5f, 0.5f));
-		//guis.add(reflectPanel);
+		guis.add(reflectPanel);
 
 		//*********************MAIN GAME LOOP****************************
 		while(!Display.isCloseRequested()){
 			player.move(terrain);
 			camera.move();
 			picker.update();
+
+			GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 
 			fbos.bindReflectionFrameBuffer();
 			renderer.renderScene(entities, terrains, lights, camera);

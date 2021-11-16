@@ -21,8 +21,13 @@ uniform vec3 lightPosition[4];
 //const float fogGradient = 1.5;
 
 //NOTE Light Haze
-const float fogDensity = 0.0035;
+//const float fogDensity = 0.0035;
+//const float fogGradient = 5.0;
+
+//NOTE No Fog
+const float fogDensity = 0;
 const float fogGradient = 5.0;
+
 
 
 void main(void){

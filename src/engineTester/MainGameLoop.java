@@ -153,7 +153,7 @@ public class MainGameLoop {
 		GUIRenderer guiRenderer = new GUIRenderer(loader);
 		MousePicker picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
 		GuiTexture reflectPanel = new GuiTexture(fbos.getReflectionTexture(), new Vector2f(-0.5f,0.5f), new Vector2f(0.5f, 0.5f));
-		guis.add(reflectPanel);
+		//guis.add(reflectPanel);
 
 		//*********************MAIN GAME LOOP****************************
 		while(!Display.isCloseRequested()){

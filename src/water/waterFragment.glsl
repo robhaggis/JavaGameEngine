@@ -2,6 +2,7 @@
 
 in vec4 clipSpace;
 in vec2 textureCoords;
+in vec3 toCamVector;
 
 out vec4 out_Color;
 
@@ -31,7 +32,13 @@ void main(void) {
 
 	vec4 reflectColour = texture(reflectionTexture, relectTexCoords);
 	vec4 refractColour = texture(refractionTexture, refractTexCoords);
-	out_Color = mix(reflectColour, refractColour, 0.5);
+
+
+	vec3 viewVector = normalize(toCamVector);
+	float refractiveFactor = dot(viewVector, vec3(0.0,1.0,0.0));
+	refractiveFactor = pow(refractiveFactor,2);
+
+	out_Color = mix(reflectColour, refractColour, refractiveFactor);
 
 	//NOTE Blue Tint to water
 	out_Color = mix(out_Color, vec4(0.0,0.3,0.5,1.0), 0.2);

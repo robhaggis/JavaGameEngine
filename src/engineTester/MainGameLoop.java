@@ -20,6 +20,9 @@ import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
 import toolbox.MousePicker;
+import water.WaterRenderer;
+import water.WaterShader;
+import water.WaterTile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +55,7 @@ public class MainGameLoop {
 		//*********************PLAYER****************************
 		RawModel bunnyModel = OBJLoader.loadObjModel("person", loader);
 		TexturedModel bunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("playerTexture")));
-		Player player = new Player(bunny, new Vector3f(200,0,-200),0,180,0, 0.6f);
+		Player player = new Player(bunny, new Vector3f(300,0,-200),0,270,0, 0.6f);
 
 		//*********************CAMERA****************************
 		Camera camera = new Camera(player);
@@ -133,6 +136,12 @@ public class MainGameLoop {
 		Entity lampEntity = new Entity(lamp, new Vector3f(150,0f,-100),0,0,0,1);
 		entities.add(lampEntity);
 
+		//*********************WATER****************************
+		WaterShader waterShader = new WaterShader();
+		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix());
+		List<WaterTile> waters = new ArrayList<WaterTile>();
+		waters.add(new WaterTile(175,-175,-2f));
+
 		//*********************GUI****************************
 		List<GuiTexture> guis = new ArrayList<GuiTexture>();
 		GuiTexture gui = new GuiTexture(loader.loadTexture("hpbar"), new Vector2f(-0.7f, -0.9f), new Vector2f(0.4f,0.5f));
@@ -154,10 +163,12 @@ public class MainGameLoop {
 //			}
 
 			renderer.renderScene(entities, terrains, lights, camera);
+			waterRenderer.render(waters,camera);
 			guiRenderer.render(guis);
 			DisplayManager.updateDisplay();
 		}
 
+		waterShader.cleanUp();
 		renderer.cleanUp();
 		loader.cleanUp();
 		guiRenderer.cleanUp();

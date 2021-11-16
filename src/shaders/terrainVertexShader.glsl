@@ -14,6 +14,7 @@ uniform mat4 transformationMatrix;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform vec3 lightPosition[4];
+uniform vec4 clippingPlane;
 
 //TODO Move to java code so fog can be set dynamically
 //NOTE HEAVY FOG
@@ -31,8 +32,8 @@ const float fogGradient = 5.0;
 
 
 void main(void){
-
 	vec4 worldPosition = transformationMatrix * vec4(position,1.0);
+	gl_ClipDistance[0] = dot(worldPosition,clippingPlane);
 	vec4 positionRelativeToCamera = viewMatrix * worldPosition;
 	gl_Position = projectionMatrix * positionRelativeToCamera;
 	pass_textureCoordinates = textureCoordinates;

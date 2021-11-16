@@ -4,6 +4,7 @@ import entities.Camera;
 import entities.Light;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.Vector4f;
 import toolbox.Maths;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class TerrainShader extends ShaderProgram{
 	private int location_gTexture;
 	private int location_bTexture;
 	private int location_blendMap;
+	private int location_clippingPlane;
 
 	public TerrainShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE);
@@ -49,7 +51,6 @@ public class TerrainShader extends ShaderProgram{
 		location_transformationMatrix = super.getUniformLocation("transformationMatrix");
 		location_projectionMatrix = super.getUniformLocation("projectionMatrix");
 		location_viewMatrix = super.getUniformLocation("viewMatrix");
-
 		location_shineDamper = super.getUniformLocation("shineDamper");
 		location_reflectivity = super.getUniformLocation("reflectivity");
 		location_skyColour = super.getUniformLocation("skyColour");
@@ -58,17 +59,17 @@ public class TerrainShader extends ShaderProgram{
 		location_gTexture = super.getUniformLocation("gTexture");
 		location_bTexture = super.getUniformLocation("bTexture");
 		location_blendMap = super.getUniformLocation("blendMap");
-
 		location_lightColour = new int[MAX_LIGHTS];
 		location_lightPosition = new int[MAX_LIGHTS];
 		location_attenuation = new int[MAX_LIGHTS];
+		location_clippingPlane = super.getUniformLocation("clippingPlane");
 
-		for(int i=0;i<MAX_LIGHTS;i++){
-			location_lightPosition[i] = super.getUniformLocation("lightPosition["+i+"]");
-			location_lightColour[i] = super.getUniformLocation("lightColour["+i+"]");
-			location_attenuation[i] = super.getUniformLocation("attenuation["+i+"]");
+		for (int i = 0; i < MAX_LIGHTS; i++) {
+			location_lightPosition[i] = super.getUniformLocation("lightPosition[" + i + "]");
+			location_lightColour[i] = super.getUniformLocation("lightColour[" + i + "]");
+			location_attenuation[i] = super.getUniformLocation("attenuation[" + i + "]");
 		}
-		
+
 	}
 
 	public void connectTextureUnits(){
@@ -81,6 +82,10 @@ public class TerrainShader extends ShaderProgram{
 
 	public void loadSkyColour(float r, float g, float b){
 		super.load3DVector(location_skyColour, new Vector3f(r,g,b));
+	}
+
+	public void loadClippingPlane(Vector4f clipPlane){
+		super.load4DVector(location_clippingPlane, clipPlane);
 	}
 	
 	public void loadShineVariables(float damper,float reflectivity){

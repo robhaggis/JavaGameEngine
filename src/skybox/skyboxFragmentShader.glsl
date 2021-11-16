@@ -8,13 +8,20 @@ uniform samplerCube cubeMap2;
 uniform float blendFactor;
 uniform vec3 fogColour;
 
-//const float lowerLimit = 0.0;
-//const float upperLimit = 30.0;
+const float lowerLimit = 0.0;
+const float upperLimit = 30.0;
+
+//TODO upload cell shade as a uniform value
+const float cellShadeLevels = 10;//higher results in more detailed textures i.e less distinct cell shading
 
 void main(void){
     vec4 tex1 = texture(cubeMap, textureCoords);
     vec4 tex2 = texture(cubeMap2, textureCoords);
     vec4 finalColour = mix(tex1, tex2, blendFactor);
+
+    float amount = (finalColour.r + finalColour.g + finalColour.b) /3.0;
+    amount = floor(amount * cellShadeLevels) / cellShadeLevels;
+    finalColour.rgb = amount * fogColour;
 
     //NOTE uncomment to enable fog
     //float factor = (textureCoords.y - lowerLimit) / (upperLimit - lowerLimit);

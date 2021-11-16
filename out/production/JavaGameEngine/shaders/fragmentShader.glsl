@@ -15,6 +15,11 @@ uniform float shineDamper;
 uniform float reflectivity;
 uniform vec3 skyColour;
 
+
+//Cell Shading
+//TODO upload cell shade as a uniform value
+const float cellShadeLevels = 4;	//higher results in more detailed textures i.e less distinct cell shading
+
 void main(void){
 
 	vec3 unitNormal = normalize(surfaceNormal);
@@ -29,11 +34,21 @@ void main(void){
 		vec3 unitLightVector = normalize(toLightVector[i]);
 		float nDotl = dot(unitNormal,unitLightVector);
 		float brightness = max(nDotl,0.0);
+
+		//Cell Shading
+		float level = floor(brightness * cellShadeLevels);
+		brightness = level / cellShadeLevels;
+
 		vec3 lightDirection = -unitLightVector;
 		vec3 reflectedLightDirection = reflect(lightDirection,unitNormal);
 		float specularFactor = dot(reflectedLightDirection , unitVectorToCamera);
 		specularFactor = max(specularFactor,0.0);
 		float dampedFactor = pow(specularFactor,shineDamper);
+
+		//Cell shading for specular highlights
+		level = floor(dampedFactor * cellShadeLevels);
+		dampedFactor = level / cellShadeLevels;
+
 		totalDiffuse = totalDiffuse + (brightness * lightColour[i])/attFactor;
 		totalSpecular = totalSpecular + (dampedFactor * reflectivity * lightColour[i])/attFactor;
 	}

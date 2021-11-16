@@ -48,14 +48,14 @@ public class MainGameLoop {
 		TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("mossPath256"));
 		TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture,rTexture,gTexture,bTexture);
 		TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
-		Terrain terrain = new Terrain(0,-1,loader,texturePack,blendMap, "heightmap");
+		Terrain terrain = new Terrain(0,-1,loader,texturePack,blendMap, "heightmapLake");
 
 		terrains.add(terrain);
 
 		//*********************PLAYER****************************
 		RawModel bunnyModel = OBJLoader.loadObjModel("person", loader);
 		TexturedModel bunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("playerTexture")));
-		Player player = new Player(bunny, new Vector3f(300,0,-200),0,270,0, 0.6f);
+		Player player = new Player(bunny, new Vector3f(100,0,-100),0,135,0, 0.6f);
 
 		//*********************CAMERA****************************
 		Camera camera = new Camera(player);
@@ -127,20 +127,20 @@ public class MainGameLoop {
 		lights.add(new Light(new Vector3f(0,10000,-7000),new Vector3f(0.4f,0.4f,0.4f)));
 
 		//TODO Bundle lights and lamps together into new lamp entity
-		Light light = new Light(new Vector3f(150,0+15,-100), new Vector3f(2,2,0), new Vector3f(1,0.01f,0.002f));
+		Light light = new Light(new Vector3f(110,-5+15,-110), new Vector3f(2,2,0), new Vector3f(1,0.01f,0.002f));
 		lights.add(light);
 
 		TexturedModel lamp = new TexturedModel(OBJLoader.loadObjModel("lamp",loader),new ModelTexture(loader.loadTexture("lamp")));
 		lamp.getTexture().setUseFakeLighting(true);
 
-		Entity lampEntity = new Entity(lamp, new Vector3f(150,0f,-100),0,0,0,1);
+		Entity lampEntity = new Entity(lamp, new Vector3f(110,-5f,-110),0,0,0,1);
 		entities.add(lampEntity);
 
 		//*********************WATER****************************
 		WaterShader waterShader = new WaterShader();
 		WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, renderer.getProjectionMatrix());
 		List<WaterTile> waters = new ArrayList<WaterTile>();
-		waters.add(new WaterTile(175,-175,-2f));
+		waters.add(new WaterTile(125,-75,-5));
 
 		//*********************GUI****************************
 		List<GuiTexture> guis = new ArrayList<GuiTexture>();

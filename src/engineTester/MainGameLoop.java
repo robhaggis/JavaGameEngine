@@ -60,6 +60,8 @@ public class MainGameLoop {
 		TexturedModel flower = new TexturedModel(OBJLoader.loadObjModel("grassModel",loader),new ModelTexture(loader.loadTexture("flower")));
 
 		TexturedModel lowPolyTree = new TexturedModel(OBJLoader.loadObjModel("lowPolyTree",loader),new ModelTexture(loader.loadTexture("lowPolyTree")));
+		TexturedModel bobbleTree = new TexturedModel(OBJLoader.loadObjModel("bobbleTree",loader),new ModelTexture(loader.loadTexture("bobbleTree")));
+		TexturedModel toonRocks = new TexturedModel(OBJLoader.loadObjModel("toonRocks",loader),new ModelTexture(loader.loadTexture("toonRocks")));
 		TexturedModel box = new TexturedModel(OBJLoader.loadObjModel("box",loader),new ModelTexture(loader.loadTexture("box")));
 		TexturedModel box2 = new TexturedModel(OBJLoader.loadObjModel("box",loader),new ModelTexture(loader.loadTexture("box")));
 
@@ -90,17 +92,17 @@ public class MainGameLoop {
 				y = terrain.getHeightOfTerrain(x,z);
 				entities.add(new Entity(fern, random.nextInt(4), new Vector3f(x,y,z),0,random.nextFloat()*360,0,0.9f));
 			}
-			if(i%5==0){
+			if(i%10==0){
 				x = random.nextFloat() * terrain.getSize();
 				z = random.nextFloat() *-terrain.getSize();
 				y = terrain.getHeightOfTerrain(x,z);
-				entities.add(new Entity(lowPolyTree, new Vector3f(x,y,z),0,random.nextFloat()*360,0,random.nextFloat()*0.1f+0.6f));
+				entities.add(new Entity(bobbleTree, new Vector3f(x,y,z),0,random.nextFloat()*360,0,random.nextFloat()*0.1f+0.6f));
 
 
 				x = random.nextFloat() * terrain.getSize();
 				z = random.nextFloat() *-terrain.getSize();
 				y = terrain.getHeightOfTerrain(x,z);
-				entities.add(new Entity(staticModel, new Vector3f(x,y,z),0,random.nextFloat()*360,0,random.nextFloat()*1+4));
+				entities.add(new Entity(toonRocks, new Vector3f(x,y,z),0,random.nextFloat()*360,0,1.5f));
 			}
 		}
 
@@ -111,16 +113,16 @@ public class MainGameLoop {
 
 		//Note: Sun
 		//TODO: Set sun based on time of day
-		lights.add(new Light(new Vector3f(0,10000,-7000),new Vector3f(0.2f,0.2f,0.2f)));
+		lights.add(new Light(new Vector3f(0,10000,-7000),new Vector3f(0.4f,0.4f,0.4f)));
 
 		//TODO Bundle lights and lamps together into new lamp entity
-		Light light = new Light(new Vector3f(150,7.5f+15,-100), new Vector3f(2,0,2), new Vector3f(1,0.01f,0.002f));
+		Light light = new Light(new Vector3f(150,0+15,-100), new Vector3f(2,2,0), new Vector3f(1,0.01f,0.002f));
 		lights.add(light);
 
 		TexturedModel lamp = new TexturedModel(OBJLoader.loadObjModel("lamp",loader),new ModelTexture(loader.loadTexture("lamp")));
 		lamp.getTexture().setUseFakeLighting(true);
 
-		Entity lampEntity = new Entity(lamp, new Vector3f(150,7.5f,-100),0,0,0,1);
+		Entity lampEntity = new Entity(lamp, new Vector3f(150,0f,-100),0,0,0,1);
 		entities.add(lampEntity);
 
 		//*********************GUI****************************
@@ -139,11 +141,11 @@ public class MainGameLoop {
 			picker.update();
 
 			//Stick lamp to mouse cursor
-			Vector3f terrainPoint = picker.getCurrentTerrainPoint();
-			if(terrainPoint != null){
-				lampEntity.setPosition(terrainPoint);
-				light.setPosition(new Vector3f(terrainPoint.x, terrainPoint.y+15, terrainPoint.z));
-			}
+//			Vector3f terrainPoint = picker.getCurrentTerrainPoint();
+//			if(terrainPoint != null){
+//				lampEntity.setPosition(terrainPoint);
+//				light.setPosition(new Vector3f(terrainPoint.x, terrainPoint.y+15, terrainPoint.z));
+//			}
 			renderer.processEntity(player);
 
 			renderer.processTerrain(terrain);

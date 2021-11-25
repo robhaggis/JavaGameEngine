@@ -42,7 +42,8 @@ void main(void){
 
 	vec4 worldPosition = transformationMatrix * vec4(position,1.0);
 
-	gl_ClipDistance[0] = dot(worldPosition,clippingPlane);
+
+
 
 	vec4 positionRelativetoCam = viewMatrix * worldPosition;
 	gl_Position = projectionMatrix * positionRelativetoCam;

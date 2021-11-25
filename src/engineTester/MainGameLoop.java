@@ -181,7 +181,7 @@ public class MainGameLoop {
 			renderer.renderScene(entities, terrains, lights, camera, new Vector4f(0,-1,0,water.getHeight()));
 
 
-			//Stick lamp to mouse cursor
+//			//Stick lamp to mouse cursor
 //			Vector3f terrainPoint = picker.getCurrentTerrainPoint();
 //			if(terrainPoint != null){
 //				lampEntity.setPosition(terrainPoint);
